@@ -1,6 +1,6 @@
 import { Outlet, Navigate } from "react-router";
 
-function ProtectedLayout() {
+function ProtectedLayout({children}) {
   const isLoggedIn = localStorage.getItem("token"); // later you'll store the API token here
 
   if (!isLoggedIn) {

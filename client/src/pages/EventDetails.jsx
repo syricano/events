@@ -1,61 +1,66 @@
 import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
-import {  useParams } from "react-router";
-
+import { useParams } from "react-router";
 
 function EventDetails() {
-    const { id } = useParams();
-    const [event, setEvent] = useState(null);
+  const { id } = useParams();
+  const [event, setEvent] = useState(null);
 
-    useEffect(() => {
+  useEffect(() => {
     fetch(`http://localhost:3001/api/events/${id}`)
-        .then((res) => res.json())
-        .then((data) => setEvent(data))
-        .catch((err) => console.error(err));
-    }, [id]);
+      .then((res) => res.json())
+      .then((data) => setEvent(data))
+      .catch((err) => console.error(err));
+  }, [id]);
 
   return (
-    <div className="text-center mt-10">
-      <h1 className="text-2xl font-bold">Event Details Page</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {event && (
-        <div className="card bg-base-100 shadow-md">
-            <div className="card-body">
-            <h2 className="card-title">{event.title}</h2>
-            <h3 className="card-des">{event.description}</h3>
-            <p>{new Date(event.date).toISOString().split("T")[0]}</p>
+    <div className="min-h-screen bg-gray-100 py-10 px-4">
+      <h1 className="text-3xl font-bold text-center text-blue-600 mb-10">Event Details</h1>
 
-            <MapContainer
+      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6">
+        {event && (
+          <>
+            <h2 className="text-2xl font-semibold mb-2 text-gray-800">{event.title}</h2>
+            <p className="text-gray-600 mb-4">{event.description}</p>
+
+            <div className="space-y-2 text-gray-700">
+              <p><span className="font-medium">Location:</span> {event.location}</p>
+              <p><span className="font-medium">Date:</span> {new Date(event.date).toISOString().split("T")[0]}</p>
+              <p><span className="font-medium">Created At:</span> {new Date(event.createdAt).toISOString().split("T")[0]}</p>
+              <p><span className="font-medium">Updated At:</span> {new Date(event.updatedAt).toISOString().split("T")[0]}</p>
+            </div>
+
+            <div className="mt-6">
+              <MapContainer
                 center={[event.latitude, event.longitude]}
                 zoom={13}
                 scrollWheelZoom={false}
-                className="h-64 w-full rounded"
-            >
+                className="h-64 w-full rounded-lg z-0"
+              >
                 <TileLayer
-                attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />      
+                  attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
                 <CircleMarker
-                center={[event.latitude, event.longitude]}
-                radius={8}
-                pathOptions={{
+                  center={[event.latitude, event.longitude]}
+                  radius={8}
+                  pathOptions={{
                     fillColor: '#3388ff',
                     color: '#000',
                     weight: 1,
                     opacity: 1,
                     fillOpacity: 0.8,
-                }}
+                  }}
                 >
-                <Popup>
+                  <Popup>
                     {event.title}<br />{event.location}
-                </Popup>
+                  </Popup>
                 </CircleMarker>
-            </MapContainer>
+              </MapContainer>
             </div>
-        </div>
+          </>
         )}
-
-    </div>
+      </div>
     </div>
   );
 }
