@@ -1,11 +1,12 @@
-import { useParams, useNavigate } from "react-router";
+import {  useNavigate } from "react-router";
 import { useState, useEffect } from "react";
 import LocationSelectorMap from "../components/LocationSelectorMap";
+import { useAuth } from "../context/AuthContext";
+import { Navigate } from "react-router";
 
 function CreateEvent() {
+  
   const navigate = useNavigate();
-  const { id } = useParams();
-  const [users, setUsers] = useState([]);
   const userId = localStorage.getItem("userId");  
   const token = localStorage.getItem("token"); 
   const [title, setTitle] = useState("");
@@ -13,7 +14,8 @@ function CreateEvent() {
   const [location, setLocation] = useState("");
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const { isLoggedIn } = useAuth();
+  
 
   // Fetch users for dropdown
  useEffect(() => {
@@ -58,82 +60,90 @@ function CreateEvent() {
     }
     
   };
+  
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <h1 className="text-3xl font-bold text-center text-blue-600 mb-10">Create a new Event</h1>
-      <form onSubmit={submitHandler} className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6 space-y-4">
-        
-        <div>
-          <label className="block text-gray-700 font-medium">Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2 border rounded mt-1 text-black"
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 font-medium">Description</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border rounded mt-1 text-black"
-            rows="3"
-          />
-        </div>
-
-        <div>
-          <label className="block text-gray-700 font-medium">Location</label>
-          <input
-            type="text"
-            placeholder="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className="w-full p-2 border rounded mt-1 text-black"
-          />       
-          <label className="block text-gray-700 font-medium mb-2">Pick a location on the map</label>
-          <LocationSelectorMap
-            onLocationChange={({ lat, lng }) => {
-              setLatitude(lat.toFixed(8));
-              setLongitude(lng.toFixed(8));
-            }}
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
+    <>
+      {!isLoggedIn ? (
+        <Navigate to="/signin" replace='true' />
+      ) : (
+      
+      <div className="min-h-screen bg-gray-100 py-10 px-4">
+        <h1 className="text-3xl font-bold text-center text-blue-600 mb-10">Create a new Event</h1> 
+  
+        <form onSubmit={submitHandler} className="max-w-3xl mx-auto bg-white rounded-lg shadow-md p-6 space-y-4">
+          
           <div>
-            <label className="block text-gray-700 font-medium">Latitude</label>
+            <label className="block text-gray-700 font-medium">Title</label>
             <input
-              type="number"
-              step="0.00000001"
-              value={latitude}
-              onChange={(e) => setLatitude(e.target.value)}
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               className="w-full p-2 border rounded mt-1 text-black"
+              required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium">Longitude</label>
-            <input
-              type="number"
-              step="0.00000001"
-              value={longitude}
-              onChange={(e) => setLongitude(e.target.value)}
+            <label className="block text-gray-700 font-medium">Description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               className="w-full p-2 border rounded mt-1 text-black"
+              rows="3"
             />
           </div>
-        </div>
 
-        
+          <div>
+            <label className="block text-gray-700 font-medium">Location</label>
+            <input
+              type="text"
+              placeholder="Location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              className="w-full p-2 border rounded mt-1 text-black"
+            />       
+            <label className="block text-gray-700 font-medium mb-2">Pick a location on the map</label>
+            <LocationSelectorMap
+              onLocationChange={({ lat, lng }) => {
+                setLatitude(lat.toFixed(8));
+                setLongitude(lng.toFixed(8));
+              }}
+            />
+          </div>
 
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-          Submit Event
-        </button>
-      </form>
-    </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-gray-700 font-medium">Latitude</label>
+              <input
+                type="number"
+                step="0.00000001"
+                value={latitude}
+                onChange={(e) => setLatitude(e.target.value)}
+                className="w-full p-2 border rounded mt-1 text-black"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 font-medium">Longitude</label>
+              <input
+                type="number"
+                step="0.00000001"
+                value={longitude}
+                onChange={(e) => setLongitude(e.target.value)}
+                className="w-full p-2 border rounded mt-1 text-black"
+              />
+            </div>
+          </div>
+
+          
+
+          <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Submit Event
+          </button>
+        </form>
+      </div>)}
+    </>
   );
 }
 
