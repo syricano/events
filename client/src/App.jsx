@@ -7,7 +7,6 @@ import EventDetails from "./pages/EventDetails";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import CreateEvent from "./pages/CreatEvent";
-import NotFound from "./pages/NotFound";
 
 
 const App = () => {
@@ -19,7 +18,6 @@ const App = () => {
         <Route path="/events/:id" element={<EventDetails />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/notfound" element={<NotFound />} />
       </Route>
 
       {/* Protected Routes */}
