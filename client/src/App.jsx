@@ -9,6 +9,7 @@ import SignIn from "./pages/SignIn";
 import CreateEvent from "./pages/CreatEvent";
 import NotFound from "./pages/NotFound";
 
+
 const App = () => {
   return (
     <Routes>

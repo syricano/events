@@ -24,40 +24,8 @@ function Home() {
             <p className="text-gray-700 mb-2">
               <span className="font-medium">Date:</span> {new Date(event.date).toISOString().split("T")[0]}
             </p>
-            <p className="text-gray-600 mb-2">
-              <span className="font-medium">Created At:</span> {new Date(event.createdAt).toISOString().split("T")[0]}
-            </p>
-            <p className="text-gray-600 mb-4">
-              <span className="font-medium">Updated At:</span> {new Date(event.updatedAt).toISOString().split("T")[0]}
-            </p>
-            <div className="mb-4">
-              <MapContainer
-                center={[event.latitude, event.longitude]}
-                zoom={13}
-                scrollWheelZoom={false}
-                className="h-64 w-full rounded-lg"
-              >
-                <TileLayer
-                  attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />      
-                <CircleMarker
-                  center={[event.latitude, event.longitude]}
-                  radius={8}
-                  pathOptions={{
-                    fillColor: '#3388ff',
-                    color: '#000',
-                    weight: 1,
-                    opacity: 1,
-                    fillOpacity: 0.8,
-                  }}
-                >
-                  <Popup>
-                    {event.title}<br />{event.location}
-                  </Popup>
-                </CircleMarker>
-              </MapContainer>
-            </div>
+           
+
             <div className="flex justify-end">
               <Link to={`/events/${event.id}`} className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600 text-sm">
                 Event Details
