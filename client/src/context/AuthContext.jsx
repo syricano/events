@@ -11,6 +11,10 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(!!token);
     setLoading(false); 
   }, []);
+  const signup = (newToken) => {
+    localStorage.setItem("token", newToken);
+    setIsLoggedIn(true);
+  };
 
   const login = (token) => {
     localStorage.setItem("token", token);
@@ -23,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout, loading }}>
+    <AuthContext.Provider value={{ isLoggedIn,signup, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

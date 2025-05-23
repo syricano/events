@@ -11,6 +11,8 @@ function Signup() {
   });
   const [message, setMessage] = useState("");
   const navigate = useNavigate(); 
+  
+  
 
   const handleChange = (e) => {
     setUser({
@@ -35,7 +37,8 @@ function Signup() {
       const data = await res.json();
       if (res.ok) {
         setMessage("Account Created successful! ...");
-        navigate("/Profile");
+        signup(data.token);
+        navigate("/");
       } else {
         setMessage(data.message || "Login failed. Please try again.");
       }
