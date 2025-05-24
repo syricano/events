@@ -36,11 +36,11 @@ function Signin() {
       if (res.ok) {
         setMessage("Login successful! Redirecting...");
         login(data.token);
-        navigate("/"); // or /createEvent
+        navigate("/"); 
         console.log("logged in:", data);
       } else {
         setMessage(data.message || "Login failed. Email or Password is incorrect.");
-        navigate("/signin"); // or navigate("/createEvent");
+        navigate("/signin"); 
       }     
 
       

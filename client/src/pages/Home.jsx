@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Popup, CircleMarker } from "react-leaflet";
 import { Link } from "react-router";
 
 function Home() {

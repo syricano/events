@@ -2,7 +2,7 @@ import { Outlet, Navigate } from "react-router";
 import Navbar from "../components/Navbar";
 
 function ProtectedLayout() {
-  const isLoggedIn = localStorage.getItem("token"); // later you'll store the API token here
+  const isLoggedIn = localStorage.getItem("token"); 
 
   if (!isLoggedIn) {
     return <Navigate to="/signin" />;
